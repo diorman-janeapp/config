@@ -1,0 +1,59 @@
+[alias]
+	co = "commit"
+	commend = "commit --amend --no-edit"
+	fo = "!f() { git fetch origin $1:$1; }; f"
+	fsw = "fuzzy-switch"
+	rbi = "!f() { git rebase -i HEAD~$1; }; f"
+	s = "status"
+	stush = "stash --include-untracked"
+	sw = "switch"
+
+[branch]
+	autosetuprebase = "always"
+
+[color]
+	branch = "auto"
+	diff = "auto"
+	status = "auto"
+	ui = true
+
+[commit]
+	gpgSign = true
+
+[core]
+	autocrlf = "input"
+	editor = "vim"
+
+[credential]
+	helper = "osxkeychain"
+
+[fetch]
+	prune = true
+
+[format]
+	pretty = "format:%Cred%h%Creset%C(yellow)%d%Creset %s %C(bold blue)<%an>%n%C(magenta)%ad %Cgreen(%cr)%Creset%n"
+
+[gpg]
+	program = "/opt/homebrew/bin/gpg"
+
+[init]
+	defaultBranch = "main"
+
+[push]
+	autoSetupRemote = true
+	default = "current"
+	followTags = true
+
+[tag]
+	gpgSign = true
+
+[user]
+	email = "229201+diorman@users.noreply.github.com"
+	name = "Diorman Colmenares"
+
+[includeIf "gitdir:**/github.com/janeapp/*/.git"]
+  path = "~/.config/git/config-janeapp"
+
+[includeIf "gitdir:**/github.com/diorman-janeapp/*/.git"]
+  path = "~/.config/git/config-janeapp"
+
