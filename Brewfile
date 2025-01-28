@@ -38,6 +38,8 @@ brew "imagemagick"
 brew "jq"
 # Conversion library
 brew "libiconv"
+# Postgres C API library
+brew "libpq"
 # XML parsing library for C
 brew "libxml2"
 # YAML 1.1 parser and emitter written in C
@@ -74,8 +76,9 @@ brew "stow"
 brew "watch"
 
 # Casks
+cask "1password"
 cask "docker"
-cask "firefox"
+cask "google-chrome"
 cask "font-fira-code-nerd-font"
 cask "flux"
 cask "karabiner-elements"
