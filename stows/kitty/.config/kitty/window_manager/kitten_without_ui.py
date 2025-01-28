@@ -1,11 +1,12 @@
+import os
 from typing import List
 from kitty.boss import Boss
 from kitty.window import Window
 from kittens.tui.handler import result_handler
 from kitty.fast_data_types import focus_os_window, get_os_window_title
-
 from windows import list_tabs, set_active_tab, list_os_windows, is_kitten_with_ui_window, get_active_window_in_tab
-from system import HOMEPATH
+
+HOMEPATH = os.getenv("HOME")
 
 def main(args: List[str]) -> str:
     pass

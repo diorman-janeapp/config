@@ -1,6 +1,6 @@
 import os
-
 import re
+import subprocess
 from typing import List
 from kitty.boss import Boss
 from kitty.window import Window
@@ -8,8 +8,9 @@ from kittens.tui.handler import result_handler
 from kitty.fast_data_types import focus_os_window
 
 from windows import list_tabs, set_active_tab, list_os_windows, is_kitten_with_ui_window, get_active_window_in_tab
-from system import which, CODEPATH
 
+HOMEPATH = os.getenv("HOME")
+CODEPATH = f'{HOMEPATH}/Code'
 FZF_DEFAULT_OPTIONS =  '--no-bold --color bg+:green,fg+:black,hl+:bold:black,hl:magenta,gutter:black,pointer:black,disabled:black --no-sort --no-multi --no-info --layout default --cycle --pointer " " --prompt " ❯ " '
 
 def main(args: List[str]) -> str:
@@ -66,12 +67,8 @@ def select_tab_handler(boss: Boss, target_window: Window, answer: str):
         set_active_tab(boss, target_window.os_window_id, tabs[index].id)
 
 def select_code_project_prompt():
-    find = which('find')
-    sed = which('sed')
-    sort = which('sort')
-    output = os.popen(f'''find '{CODEPATH}' -mindepth 3 -maxdepth 3 -type d | {sed} 's|{CODEPATH}/||' | {sort} --ignore-case''')
-    choices = output.read().split('\n')
-    output.close()
+    output = run(f'''find '{CODEPATH}' -mindepth 3 -maxdepth 3 -type d | sed 's|{CODEPATH}/||' | sort --ignore-case''')
+    choices = output.stdout.split('\n')
     return fzf(choices)
 
 def select_code_project_handler(boss: Boss, target_window: Window, answer):
@@ -89,10 +86,10 @@ def select_code_project_handler(boss: Boss, target_window: Window, answer):
         focus_os_window(existing_os_window.id)
 
 def fzf(choices: List[str], fzf_options = '', delimiter = '\n'):
-    fzf = which('fzf')
-    echo = which('echo')
     choices_str = delimiter.join(map(str, choices))
-    output = os.popen(f'''{echo} '{choices_str}' | {fzf} {FZF_DEFAULT_OPTIONS} {fzf_options}''')
-    selection = output.read().strip()
-    output.close()
+    output = run(f'''echo '{choices_str}' | fzf {FZF_DEFAULT_OPTIONS} {fzf_options}''')
+    selection = output.stdout.strip()
     return selection
+
+def run(cmd):
+    return subprocess.run(['bash', '-lc', cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)

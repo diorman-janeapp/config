@@ -1,3 +1,4 @@
+import os
 import re
 from typing import List, Dict, Optional
 from kitty.boss import Boss, OSWindowDict
@@ -5,7 +6,8 @@ from kitty.window import Window, WindowDict
 from kitty.tabs import Tab, TabDict
 from kitty.fast_data_types import get_os_window_title
 
-from system import HOMEPATH, CODEPATH
+HOMEPATH = os.getenv("HOME")
+CODEPATH = f'{HOMEPATH}/Code'
 
 class OSWindow:
     def __init__(self, os_window_dict: OSWindowDict):
