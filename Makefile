@@ -1,4 +1,4 @@
-STOW_PKGS := git karabiner kitty neovim shell ssh
+STOW_PKGS := git gnupg karabiner kitty neovim shell ssh
 
 .PHONY: stow
 stow:
