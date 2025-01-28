@@ -12,7 +12,9 @@ set -gx VISUAL 'vim'
 status is-login; and begin
     eval "$(/opt/homebrew/bin/brew shellenv)"
 
+    # version managers
     fnm env --use-on-cd --shell fish | source
+    rbenv init - --no-rehash fish | source
 
     # Login shell initialisation
 
