@@ -35,6 +35,8 @@ end
 status is-interactive; and begin
 
     # Interactive shell initialisation
+    alias vim="nvim"
+
     # disable the welcome message
     set fish_greeting
 
