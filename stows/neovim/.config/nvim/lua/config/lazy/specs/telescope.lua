@@ -41,12 +41,27 @@ return {
     local builtin = require("telescope.builtin")
     vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "Search help" })
     vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "Search keymaps" })
-    vim.keymap.set("n", "<leader>sf", builtin.git_files, { desc = "Search files" })
+
+    local is_git_repo = require("telescope.utils").get_os_command_output(
+      { "git", "rev-parse", "--is-inside-work-tree" },
+      vim.loop.cwd()
+    )[1] == "true"
+
+    vim.keymap.set("n", "<leader>sf", function()
+      if is_git_repo then
+        builtin.git_files({ show_untracked = true })
+      else
+        builtin.find_files({ hidden = true })
+      end
+    end, { desc = "Search files" })
+
     vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "Search select telescope" })
     vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "Search current word" })
+
     vim.keymap.set("n", "<leader>sg", function()
       builtin.live_grep({ glob_pattern = "!.git/", additional_args = { "--hidden" } })
-    end, { desc = "Search by grep" })
+    end, { desc = "Search contents" })
+
     vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "Search resume" })
     vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = 'Search recent files ("." for repeat)' })
