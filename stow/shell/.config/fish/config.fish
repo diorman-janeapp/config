@@ -18,6 +18,9 @@ status is-login; and begin
 
     # Login shell initialisation
 
+    # needed to compile postgresql gem
+    set -gx PKG_CONFIG_PATH "$HOMEBREW_PREFIX/opt/libpq/lib/pkgconfig" $PKG_CONFIG_PATH
+
     fish_add_path --move --prepend --path \
         "$HOME/bin" \
         "$HOMEBREW_PREFIX/opt/curl/bin" \
